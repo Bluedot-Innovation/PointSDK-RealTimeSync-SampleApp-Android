@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Real Time Sync Sample App</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="location_permissions_mandatory">Location permission has not been granted, App will be redirected to the Application Settings page from where you can grant the Location permission</string>
+    <string name="permission_needed">Bluedot Point SDK requires Location Services to start. Therefore granting the Location permission is mandatory, without that the SDK will not authenticate.</string>
+    <string name="foreground_notification_title">Location Based Notifications</string>
+    <string name="foreground_notification_text">--PLEASE CHANGE-- This app is utilizing the location to trigger alerts in both background and foreground modes when you visit your favourite locations.</string>
+</resources>
