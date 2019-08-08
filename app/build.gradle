@@ -17,6 +17,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("BluedotSignaturePointApp")
+            storePassword "Blue.Sign"
+            keyAlias "pointtestapp"
+            keyPassword "Blue.Sign"
+        }
+        release {
+            storeFile file("BluedotSignaturePointApp")
+            storePassword "Blue.Sign"
+            keyAlias "pointtestapp"
+            keyPassword "Blue.Sign"
+        }
+    }
 }
 
 dependencies {
