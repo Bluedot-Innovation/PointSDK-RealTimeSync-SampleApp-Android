@@ -1,0 +1,32 @@
+variables:
+  VERSION: "1.1.0"
+  BUILD_NUMBER: "${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA:0:8}-${CI_JOB_ID}-${CI_PIPELINE_ID}"
+  FULL_VERSION: "$VERSION-$BUILD_NUMBER"
+  LC_ALL: 'en_US.UTF-8'
+
+stages:
+  - build
+  - publish
+
+buildApp:
+  tags:
+    - docker
+  stage: build
+  artifacts:
+    paths:
+      - app/build/outputs/apk/
+    when: always
+  script:
+    - mkdir -p /tmp/gradle-cache
+    - docker run -e "CI_PIPELINE_ID=${CI_PIPELINE_ID}" -w /workspace/ -v $(pwd):/workspace -v /tmp/gradle-cache:/root/.gradle --user 999 localhost:5000/android-docker-build  ./gradlew clean assembleDebug
+
+deployApp:
+    tags:
+      - docker
+    stage: publish
+    artifacts:
+      paths:
+        - app/build/outputs/apk/
+    script:
+      - mkdir -p /tmp/gradle-cache
+      - docker run -w /workspace/ -v $(pwd):/workspace -v /tmp/gradle-cache:/root/.gradle --user 999 localhost:5000/android-docker-build ./deploy_app.sh
