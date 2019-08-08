@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "384528647996",
+    "firebase_url": "https://ace-metric-89504.firebaseio.com",
+    "project_id": "ace-metric-89504",
+    "storage_bucket": "ace-metric-89504.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384528647996:android:870e3ea96bd2cc75",
+        "android_client_info": {
+          "package_name": "com.bluedotinnovation.realtimesyncsampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384528647996-b6g0i5q6m3ehcorma1k8u1h73itfa9es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVhExYpn8Hj1Iym2sU5xocwxXbfoqga1U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384528647996-b6g0i5q6m3ehcorma1k8u1h73itfa9es.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "384528647996-9u67tnm1daf03d9rvjmt94s27pjcmkk8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bluedotinnovation.BDRealTimeSyncSampleApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
