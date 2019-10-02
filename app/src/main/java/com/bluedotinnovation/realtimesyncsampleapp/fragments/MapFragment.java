@@ -35,7 +35,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.bluedot.application.model.geo.Fence;
 import au.com.bluedot.model.geo.BoundingBox;
 import au.com.bluedot.model.geo.Circle;
 import au.com.bluedot.model.geo.LineString;
@@ -323,9 +322,7 @@ public class MapFragment extends SupportMapFragment implements ServiceStatusList
 
 
     private boolean checkPermission() {
-        int status_fine = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-        int status_coarse = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION);
-        return (status_fine == PackageManager.PERMISSION_GRANTED) && (status_coarse == PackageManager.PERMISSION_GRANTED);
+        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
 }

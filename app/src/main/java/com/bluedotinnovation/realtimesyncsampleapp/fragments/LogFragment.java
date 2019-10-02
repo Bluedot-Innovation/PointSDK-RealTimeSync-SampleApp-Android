@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +19,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -60,7 +58,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     Handler handler;
 
     //Bluedot Credentials
-    private final String BLUEDOT_API_KEY = "0811c6a0-0251-11e9-aebf-02e673959816";
+    private final String BLUEDOT_API_KEY = "";
 
     private static final int PERMISSION_REQUEST_CODE = 101;
 
@@ -81,7 +79,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_log, container,false);
+        view = inflater.inflate(R.layout.fragment_log, container, false);
         return view;
 
     }
@@ -90,7 +88,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initUI();
-        if(MainActivity.LOG_DATA!=null) {
+        if (MainActivity.LOG_DATA != null) {
             tvLog.append(MainActivity.LOG_DATA);
         }
         initBluedotSDK();
@@ -125,8 +123,8 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     }
 
 
-    private  void initBluedotSDK() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || (checkPermission() && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)) {
+    private void initBluedotSDK() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkPermission()) {
             serviceManager = ServiceManager.getInstance(getContext());
             if (!serviceManager.isBlueDotPointServiceRunning()) {
                 // Setting Notification for foreground service, required for Android Oreo and above.
@@ -135,7 +133,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
                 serviceManager.sendAuthenticationRequest(BLUEDOT_API_KEY, this);
                 FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + BLUEDOT_API_KEY);
             }
-        } else  {
+        } else {
             requestLocationPermission();
         }
 
@@ -146,7 +144,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
             @Override
             public void run() {
 
-                if(!isVisible()) {
+                if (!isVisible()) {
                     MainActivity.LOG_DATA = MainActivity.LOG_DATA + "\n" + s;
                 } else {
                     tvLog.append("\n" + s);
@@ -185,19 +183,18 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
 
     /**
      * Checks for status of required Location permission
+     *
      * @return - status of required permission
      */
     private boolean checkPermission() {
-        int status_fine = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
-        int status_coarse = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION);
-        return (status_fine == PackageManager.PERMISSION_GRANTED) && (status_coarse == PackageManager.PERMISSION_GRANTED);
+        return ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
      * Displays user dialog for runtime permission request
      */
     private void requestLocationPermission() {
-        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
     }
 
     @Override
@@ -208,15 +205,15 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
             case PERMISSION_REQUEST_CODE:
 
                 boolean permissionGranted = true;
-                for(Integer i : grantResults) {
+                for (Integer i : grantResults) {
                     permissionGranted = permissionGranted && (i == PackageManager.PERMISSION_GRANTED);
                 }
 
-                if(permissionGranted) {
+                if (permissionGranted) {
                     initBluedotSDK();
                 } else {
 
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) || shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) ) {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                         alertDialog.setTitle("Information");
@@ -252,6 +249,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
 
     /**
      * Creates notification channel and notification, required for foreground service notification.
+     *
      * @return notification
      */
     private Notification createNotification() {
