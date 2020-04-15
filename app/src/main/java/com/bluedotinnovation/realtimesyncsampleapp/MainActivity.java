@@ -1,14 +1,11 @@
 package com.bluedotinnovation.realtimesyncsampleapp;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.TabHost;
+import androidx.fragment.app.FragmentTabHost;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bluedotinnovation.realtimesyncsampleapp.fragments.LogFragment;
 import com.bluedotinnovation.realtimesyncsampleapp.fragments.MapFragment;
-
-import au.com.bluedot.point.net.engine.ServiceManager;
 
 /*
  * @author Bluedot Innovation
