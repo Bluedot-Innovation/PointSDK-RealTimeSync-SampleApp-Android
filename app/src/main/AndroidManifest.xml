@@ -33,6 +33,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".BluedotGeoTriggerReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.bluedot.point.GEOTRIGGER" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>

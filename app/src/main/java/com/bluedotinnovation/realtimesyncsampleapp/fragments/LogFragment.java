@@ -33,6 +33,8 @@ import com.bluedotinnovation.realtimesyncsampleapp.R;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import au.com.bluedot.point.net.engine.BDError;
+import au.com.bluedot.point.net.engine.GeoTriggeringService;
+import au.com.bluedot.point.net.engine.GeoTriggeringStatusListener;
 import au.com.bluedot.point.net.engine.InitializationResultListener;
 import au.com.bluedot.point.net.engine.ServiceManager;
 
@@ -43,7 +45,7 @@ import static android.app.Notification.PRIORITY_MAX;
  * Copyright (c) 2018 Bluedot Innovation. All rights reserved.
  */
 
-public class LogFragment extends Fragment implements InitializationResultListener {
+public class LogFragment extends Fragment implements InitializationResultListener, GeoTriggeringStatusListener {
 
 
     ServiceManager serviceManager;
@@ -129,7 +131,6 @@ public class LogFragment extends Fragment implements InitializationResultListene
 
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
@@ -140,6 +141,18 @@ public class LogFragment extends Fragment implements InitializationResultListene
     public void onInitializationFinished(@org.jetbrains.annotations.Nullable BDError bdError) {
         if (bdError == null) {
             updateLog("Bluedot Point SDK authenticated");
+            GeoTriggeringService.builder().start(getContext(), this);
+            return;
+        }
+
+        updateLog("Bluedot Point SDK error: " + bdError.getReason());
+    }
+
+    @Override
+    public void onGeoTriggeringResult(@org.jetbrains.annotations.Nullable BDError bdError) {
+        if (bdError == null) {
+            updateLog("Bluedot Point SDK GeoTrigerring started");
+
             return;
         }
 
