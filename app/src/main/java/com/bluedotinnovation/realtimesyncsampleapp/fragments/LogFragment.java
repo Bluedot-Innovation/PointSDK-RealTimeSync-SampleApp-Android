@@ -32,13 +32,9 @@ import com.bluedotinnovation.realtimesyncsampleapp.MainActivity;
 import com.bluedotinnovation.realtimesyncsampleapp.R;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Date;
-import java.util.List;
-
-import au.com.bluedot.point.ServiceStatusListener;
 import au.com.bluedot.point.net.engine.BDError;
+import au.com.bluedot.point.net.engine.InitializationResultListener;
 import au.com.bluedot.point.net.engine.ServiceManager;
-import au.com.bluedot.point.net.engine.ZoneInfo;
 
 import static android.app.Notification.PRIORITY_MAX;
 
@@ -47,7 +43,7 @@ import static android.app.Notification.PRIORITY_MAX;
  * Copyright (c) 2018 Bluedot Innovation. All rights reserved.
  */
 
-public class LogFragment extends Fragment implements ServiceStatusListener {
+public class LogFragment extends Fragment implements InitializationResultListener {
 
 
     ServiceManager serviceManager;
@@ -58,7 +54,7 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     Handler handler;
 
     //Bluedot Credentials
-    private final String BLUEDOT_API_KEY = "";
+    private final String BLUEDOT_PROJECT_ID = "";
 
     private static final int PERMISSION_REQUEST_CODE = 101;
 
@@ -101,28 +97,6 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     }
 
 
-    @Override
-    public void onBlueDotPointServiceStartedSuccess() {
-        updateLog("Bluedot Point SDK authenticated");
-
-    }
-
-    @Override
-    public void onBlueDotPointServiceStop() {
-
-    }
-
-    @Override
-    public void onBlueDotPointServiceError(BDError bdError) {
-        updateLog("Bluedot Point SDK error: " + bdError.getReason());
-    }
-
-    @Override
-    public void onRuleUpdate(List<ZoneInfo> list) {
-        updateLog("Zones updated at: " + new Date().toString() + "\nZoneInfos count: " + list.size());
-    }
-
-
     private void initBluedotSDK() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkPermission()) {
             serviceManager = ServiceManager.getInstance(getContext());
@@ -130,8 +104,8 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
                 // Setting Notification for foreground service, required for Android Oreo and above.
                 // Setting targetAllAPIs to TRUE will display foreground notification for Android versions lower than Oreo
                 serviceManager.setForegroundServiceNotification(createNotification(), false);
-                serviceManager.sendAuthenticationRequest(BLUEDOT_API_KEY, this);
-                FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + BLUEDOT_API_KEY);
+                serviceManager.initialize(BLUEDOT_PROJECT_ID, this);
+                FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + BLUEDOT_PROJECT_ID);
             }
         } else {
             requestLocationPermission();
@@ -160,6 +134,16 @@ public class LogFragment extends Fragment implements ServiceStatusListener {
     public void onPause() {
         super.onPause();
         MainActivity.LOG_DATA = tvLog.getText().toString();
+    }
+
+    @Override
+    public void onInitializationFinished(@org.jetbrains.annotations.Nullable BDError bdError) {
+        if (bdError == null) {
+            updateLog("Bluedot Point SDK authenticated");
+            return;
+        }
+
+        updateLog("Bluedot Point SDK error: " + bdError.getReason());
     }
 
     public final class LogReceiver extends BroadcastReceiver {

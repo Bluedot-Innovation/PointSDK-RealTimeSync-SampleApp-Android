@@ -23,6 +23,16 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="" />
 
+        <receiver
+            android:name="com.bluedotinnovation.realtimesyncsampleapp.BluedotErrorReceiver"
+            android:enabled="true"
+            android:exported="false"
+            >
+            <intent-filter>
+                <action android:name="io.bluedot.point.SERVICE" />
+            </intent-filter>
+        </receiver>
+
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
