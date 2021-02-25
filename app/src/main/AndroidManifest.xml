@@ -3,6 +3,7 @@
     package="com.bluedotinnovation.realtimesyncsampleapp">
 
     <!-- Required for Google Maps -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,10 +19,9 @@
         </activity>
 
 
-        <!--Firebase Services-->
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
 
         <receiver
             android:name="com.bluedotinnovation.realtimesyncsampleapp.BluedotErrorReceiver"
@@ -34,7 +34,7 @@
         </receiver>
 
         <receiver
-            android:name=".BluedotGeoTriggerReceiver"
+            android:name="com.bluedotinnovation.realtimesyncsampleapp.BluedotGeoTriggerReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

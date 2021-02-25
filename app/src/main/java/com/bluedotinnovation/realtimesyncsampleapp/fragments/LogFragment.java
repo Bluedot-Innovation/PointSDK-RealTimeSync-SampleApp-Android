@@ -56,7 +56,7 @@ public class LogFragment extends Fragment implements InitializationResultListene
     Handler handler;
 
     //Bluedot Credentials
-    private final String BLUEDOT_PROJECT_ID = "";
+    private final String BLUEDOT_PROJECT_ID = "e3eb0689-5a35-4114-8273-85ba12084564";
 
     private static final int PERMISSION_REQUEST_CODE = 101;
 
