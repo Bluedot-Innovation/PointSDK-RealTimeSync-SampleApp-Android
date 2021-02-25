@@ -2,6 +2,8 @@ package com.bluedotinnovation.realtimesyncsampleapp;
 
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import com.bluedotinnovation.realtimesyncsampleapp.fragments.LogFragment;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -29,6 +31,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
     }
 
+    @Override
+    public void onNewToken(@NonNull String token) {
+        logInfo("Token registerred: " + token);
+    }
 
     private void logInfo(String logInfo){
         Intent intent = new Intent();

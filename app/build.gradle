@@ -55,13 +55,14 @@ android {
 dependencies {
     api 'com.google.android.gms:play-services-maps:17.0.0'
     api 'com.google.maps.android:android-maps-utils:0.4.4'
-    api 'com.google.firebase:firebase-messaging:21.0.1'
-    api 'com.google.firebase:firebase-core:18.0.2'
+    api 'com.google.firebase:firebase-messaging'
+    api 'com.google.firebase:firebase-core'
+    api 'com.google.firebase:firebase-analytics'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.gitlab.bluedotio.android:point_sdk_android:15.3.1'
-    implementation 'com.google.firebase:firebase-analytics'
+
     testImplementation 'junit:junit:4.12'
 }

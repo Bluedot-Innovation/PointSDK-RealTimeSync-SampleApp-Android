@@ -30,6 +30,8 @@ import android.widget.TextView;
 
 import com.bluedotinnovation.realtimesyncsampleapp.MainActivity;
 import com.bluedotinnovation.realtimesyncsampleapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import au.com.bluedot.point.net.engine.BDError;
@@ -107,7 +109,28 @@ public class LogFragment extends Fragment implements InitializationResultListene
                 // Setting targetAllAPIs to TRUE will display foreground notification for Android versions lower than Oreo
                 serviceManager.setForegroundServiceNotification(createNotification(), false);
                 serviceManager.initialize(BLUEDOT_PROJECT_ID, this);
-                FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + BLUEDOT_PROJECT_ID);
+                FirebaseMessaging.getInstance()
+                        .subscribeToTopic("/topics/" + BLUEDOT_PROJECT_ID)
+                        .addOnCompleteListener(task -> {
+                            String msg = "subscribed to: /topics/" + BLUEDOT_PROJECT_ID;
+                            if (!task.isSuccessful()) {
+                                msg = "Subscribe to topic failed";
+                            }
+                            updateLog(msg);
+                        });;
+                FirebaseMessaging.getInstance()
+                        .getToken()
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()){
+                                updateLog("Fetching FCM registration token failed");
+                                return;
+                            }
+
+                            // Get new FCM registration token
+                            String token = task.getResult();
+
+                            updateLog("Current token: " + token);
+                        });
             }
         } else {
             requestLocationPermission();
