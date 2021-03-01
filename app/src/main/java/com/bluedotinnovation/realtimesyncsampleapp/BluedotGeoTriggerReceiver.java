@@ -23,7 +23,7 @@ public class BluedotGeoTriggerReceiver extends GeoTriggeringEventReceiver {
     @Override
     public void onZoneEntryEvent(@NotNull ZoneEntryEvent zoneEntryEvent, @NotNull Context context) {
         MainActivity.LOG_DATA = MainActivity.LOG_DATA
-                + "\nZones enetered at: " + new Date().toString()
+                + "\nZones entered at: " + new Date().toString()
                 + "\n" + zoneEntryEvent.toString();
     }
 
