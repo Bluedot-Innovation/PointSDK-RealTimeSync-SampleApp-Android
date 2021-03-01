@@ -164,7 +164,12 @@ public class LogFragment extends Fragment implements InitializationResultListene
     public void onInitializationFinished(@org.jetbrains.annotations.Nullable BDError bdError) {
         if (bdError == null) {
             updateLog("Bluedot Point SDK authenticated");
-            GeoTriggeringService.builder().start(getContext(), this);
+            Notification notification = createNotification();
+            
+            GeoTriggeringService
+                    .builder()
+                    .notification(notification)
+                    .start(getContext(), this);
             return;
         }
 
