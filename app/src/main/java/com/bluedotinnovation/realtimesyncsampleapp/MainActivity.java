@@ -1,8 +1,9 @@
 package com.bluedotinnovation.realtimesyncsampleapp;
 
 import android.os.Bundle;
-import androidx.fragment.app.FragmentTabHost;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTabHost;
 
 import com.bluedotinnovation.realtimesyncsampleapp.fragments.LogFragment;
 import com.bluedotinnovation.realtimesyncsampleapp.fragments.MapFragment;
@@ -40,5 +41,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTabHost.setup(this,getSupportFragmentManager(),android.R.id.tabcontent);
 
     }
-
 }
